@@ -27,38 +27,3 @@ export const useCustomConnector = (opts?: CustomWalletOptions) => {
   return ctx
 }
 ```
-
-## Connector hooks
-
-### useInjectedConnector
-
-A React hook to connect to a web3 wallet with web3-react `InjectedConnector`.
-
-```tsx
-import React from 'react'
-import { useInjectedConnector } from '@rainbowkit/core'
-
-const App = () => {
-  const { isConnected, connect, disconnect, address, provider } = useInjectedConnector()
-
-  return (
-    <div>
-      {isConnected ? (
-        <div>
-          <button onClick={disconnect}>Disconnect</Button>
-        </div>
-      ) : (
-        <div>
-          <button onClick={connect}>Connect</Button>
-        </div>
-      )}
-      <div>
-        Address: <Code>{address}</Code>
-      </div>
-      <div>
-        Balance: <Code>{bal}</Code>
-      </div>
-    </div>
-  )
-}
-```
