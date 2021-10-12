@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { useWeb3React } from '@web3-react/core'
+import { useProvider, useAccount, useChainId, useError } from '@web3-react/core'
 import { useConnectOnMount } from './useConnectOnMount'
-import { AbstractConnector } from '@web3-react/abstract-connector'
+import { Connector } from '@web3-react/types'
 import { walletByConnector } from '@rainbowkit/utils'
 /**
  * A React hook for using individual connectors from web3-react.
@@ -9,23 +9,18 @@ import { walletByConnector } from '@rainbowkit/utils'
  * @param connectOnMount enable/disable connecting on mount
  * @param storageProvider browser storage (`localStorage`, `sessionStorage` etc)
  */
-export function useConnector<T extends AbstractConnector = AbstractConnector>(
+export function useConnector<T extends Connector = Connector>(
   connector: T,
+  _useConnector: any,
   connectOnMount = true,
   storageProvider?: Storage
 ) {
   const [storage, setStorage] = useState<Storage>()
 
-  const {
-    library: provider,
-    activate,
-    active: isConnected,
-    deactivate,
-    chainId,
-
-    account: address,
-    error
-  } = useWeb3React<T>()
+  const provider = useProvider(connector, _useConnector)
+  const address = useAccount(_useConnector)
+  const chainId = useChainId(_useConnector)
+  const error = useError(useConnector)
 
   useEffect(() => {
     if (connectOnMount) {
@@ -36,14 +31,14 @@ export function useConnector<T extends AbstractConnector = AbstractConnector>(
 
   const disconnect = () => {
     if (connectOnMount) storage.removeItem('rk-last-wallet')
-    return deactivate()
+    return connector.deactivate()
   }
 
-  useConnectOnMount(connector, connectOnMount, storage)
+  useConnectOnMount(connector, _useConnector, connectOnMount, storage)
 
   const connect = async () => {
     if (connectOnMount) localStorage.setItem('rk-last-wallet', walletByConnector(connector.constructor.name))
-    return await activate(connector)
+    return await connector.activate()
   }
 
   return { provider, connect, isConnected, disconnect, chainId, connector: connector as T, address, error }
