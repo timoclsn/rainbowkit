@@ -1,7 +1,6 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
-import { useActivating, useProvider } from '@web3-react/core'
-import { isAuthorized } from '@rainbowkit/utils'
-import { Connector } from '@web3-react/types'
+import { useEffect, useRef, useState } from 'react'
+import { useWeb3React } from '@web3-react/core'
+import { isAuthorized } from '@rainbow-me/kit-utils'
 
 /**
  * A React hook that attempts to connect to a provider if it was initialized before.

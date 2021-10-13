@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useProvider, useAccount, useChainId, useError } from '@web3-react/core'
 import { useConnectOnMount } from './useConnectOnMount'
 import { Connector } from '@web3-react/types'
-import { walletByConnector } from '@rainbowkit/utils'
+import { walletByConnector } from '@rainbow-me/kit-utils'
 /**
  * A React hook for using individual connectors from web3-react.
  * @param connector web3-react connector

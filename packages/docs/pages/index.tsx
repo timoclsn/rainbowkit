@@ -8,8 +8,8 @@ import {
   TxHistory,
   walletConnectRPCs,
   Profile
-} from '@rainbowkit/core'
-import { useTxHistory, useWeb3State, useSignMessage } from '@rainbowkit/hooks'
+} from '@rainbow-me/kit-core'
+import { useTxHistory, useWeb3State, useSignMessage } from '@rainbow-me/kit-hooks'
 import { ChainProvider } from 'chain-provider'
 import { InfuraWebSocketProvider } from '@ethersproject/providers'
 import type { WalletConnectConnectorArguments } from '@web3-react/walletconnect-connector'
@@ -18,6 +18,13 @@ import { Nav, Main, Inline, Button, Header, Icon } from '../components/layout'
 import { css } from '@linaria/core'
 
 const mainnetProvider = new InfuraWebSocketProvider('homestead', '372913dfd3114b34983d2256c46195a7')
+
+const wcOptions = {
+  connectorName: 'walletconnect',
+  options: {
+    rpc: walletConnectRPCs
+  } as WalletConnectConnectorArguments
+}
 
 const Index = () => {
   const { provider, address, isConnected, chainId } = useWeb3State()
@@ -58,10 +65,22 @@ const Index = () => {
               'coinbase',
               {
                 name: 'rainbow',
-                connectorName: 'walletconnect',
-                options: {
-                  rpc: walletConnectRPCs
-                } as WalletConnectConnectorArguments
+                ...wcOptions
+              },
+              {
+                name: 'trust',
+                hidden: true,
+                ...wcOptions
+              },
+              {
+                name: 'gnosis',
+                hidden: true,
+                ...wcOptions
+              },
+              {
+                name: 'argent',
+                hidden: true,
+                ...wcOptions
               }
             ],
             terms: (
