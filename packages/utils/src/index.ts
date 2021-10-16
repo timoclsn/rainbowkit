@@ -1,5 +1,5 @@
 export * from './types'
-export * from './withWeb3React'
+export { RainbowKitProvider, useRainbowKitState } from './state'
 export * from './isAuthorized'
 export * from './convert'
 export * from './address'

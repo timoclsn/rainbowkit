@@ -1,18 +1,19 @@
 import React, { useEffect } from 'react'
 import { Web3Provider } from '@ethersproject/providers'
-import { useWeb3React } from '@web3-react/core'
 import { useState } from 'react'
 import { Modal as ModalUI } from './components/Modal'
 import { isAuthorized } from '@rainbow-me/kit-utils'
+import { useRainbowKitState } from '@rainbow-me/kit-utils'
 import type { Wallet } from '@rainbow-me/kit-utils'
 import type { UseWalletModalOptions } from './types'
 import { createConnector } from './utils'
-import { Web3ReactContextInterface } from '@web3-react/core/dist/types'
+import { Actions, Connector } from '@web3-react/types'
 
-export type WalletInterface = Omit<
-  Web3ReactContextInterface<Web3Provider>,
-  'activate' | 'deactivate' | 'library' | 'account' | 'active'
-> & {
+export type WalletInterface = {
+  connector: Connector
+  chainId: number
+  error: Error
+} & {
   Modal?: () => JSX.Element
   provider: Web3Provider | undefined
   address: string | undefined | null
@@ -31,13 +32,13 @@ export const useWalletModal = ({
   terms
 }: UseWalletModalOptions): WalletInterface => {
   const {
-    activate,
-    deactivate,
-    library: provider,
-    active: isConnected,
-    account: address,
-    ...web3ReactProps
-  } = useWeb3React<Web3Provider>()
+    connector: { deactivate },
+    hooks: { useWeb3React, useProvider }
+  } = useRainbowKitState()
+
+  const provider = useProvider()
+
+  const { active: isConnected, account: address, ...web3ReactProps } = useWeb3React(provider)
 
   const wallets = selectedWallets.map((w) => {
     if (typeof w === 'string') {
@@ -62,11 +63,11 @@ export const useWalletModal = ({
   }) as Wallet[]
 
   const connectToWallet = async (name: string) => {
-    const options = wallets.find((w) => w.name === name)?.options || {}
+    const options: Record<string, any> = wallets.find((w) => w.name === name)?.options || {}
 
     const { instance } = await createConnector({ name: name, chains, options })
 
-    await activate(instance)
+    await instance.activate()
   }
 
   useEffect(() => {

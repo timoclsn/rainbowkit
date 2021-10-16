@@ -2,12 +2,16 @@
 
 const withLinaria = require('next-linaria')
 
-const withNextra = require('nextra')({
+/**
+ * @type {import('next').NextConfig}
+ */
+const config = {
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
   theme: 'nextra-theme-docs',
   themeConfig: './theme.config.js',
-
-  esmExternals: 'loose',
+  experimental: {
+    esmExternals: true
+  },
   redirects: async () => {
     return [
       {
@@ -16,19 +20,7 @@ const withNextra = require('nextra')({
         permanent: true
       }
     ]
-  },
-  webpack(config) {
-    config.module.rules.push({
-      test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
-      use: {
-        loader: 'url-loader',
-        options: {
-          limit: 100000
-        }
-      }
-    })
-
-    return config
   }
-})
+}
+const withNextra = require('nextra')(config)
 module.exports = withLinaria(withNextra())

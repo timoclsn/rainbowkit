@@ -1,6 +1,5 @@
 export * from 'use-ens'
 export * from './useConnectOnMount'
-export * from './useConnector'
 export * from './useExplorerTxHistory'
 export * from './useTxHistory'
 export * from './useWalletInfo'

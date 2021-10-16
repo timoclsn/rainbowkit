@@ -1,11 +1,14 @@
+import { useRainbowKitState } from '@rainbow-me/kit-utils'
 import { Web3Provider } from '@ethersproject/providers'
-import { useWeb3React } from '@web3-react/core'
 
-/**
- * Renames some of the `useWeb3React` properties for convinience
- */
 export const useWeb3State = () => {
-  const { library: provider, active: isConnected, account: address, ...web3ReactProps } = useWeb3React<Web3Provider>()
+  const {
+    hooks: { useWeb3React, useProvider }
+  } = useRainbowKitState()
 
-  return { provider, isConnected, address, ...web3ReactProps }
+  const provider = useProvider()
+
+  const { account: address, active: isConnected, ...web3Props } = useWeb3React(provider)
+
+  return { address, provider, isConnected, ...web3Props }
 }
