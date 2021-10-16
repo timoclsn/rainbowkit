@@ -12,6 +12,7 @@ const config = {
   experimental: {
     esmExternals: true
   },
+  webpack5: true,
   redirects: async () => {
     return [
       {

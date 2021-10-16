@@ -15,9 +15,9 @@
     "@rainbow-me/kit-ui": "workspace:*",
     "@rainbow-me/kit-utils": "workspace:*",
     "@web3-react/core": "^8.0.6-alpha.0",
-    "@web3-react/metamask": "^8.0.1-alpha.0",
+    "@web3-react/metamask": "^8.0.6-alpha.0",
     "@web3-react/types": "^8.0.6-alpha.0",
-    "chain-provider": "^0.0.3",
+    "chain-provider": "^0.0.4",
     "framer-motion": "^4.1.17",
     "linaria": "^3.0.0-beta.13",
     "next": "^11.1.2",
@@ -35,10 +35,9 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "postinstall": "pnpm build",
     "start": "NODE_ENV=production next start -p 3000"
   },
   "devDependencies": {
-    "core-js": "^3.18.2"
+    "core-js": "^3.18.3"
   }
 }
