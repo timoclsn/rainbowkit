@@ -117,9 +117,9 @@ const rainbow = ({ chains, infuraId }: RainbowOptions): Wallet => {
                 throw new Error('No WalletConnect URI found');
               }
 
-              window.location.href = /android/i.test(navigator.userAgent)
-                ? uri
-                : `https://rnbwapp.com/wc?uri=${encodeURIComponent(uri)}`;
+              window.location.href = `https://rnbwapp.com/wc?uri=${encodeURIComponent(
+                uri
+              )}`;
             }, 0);
           }, [connect, connectData.connector]),
         };
