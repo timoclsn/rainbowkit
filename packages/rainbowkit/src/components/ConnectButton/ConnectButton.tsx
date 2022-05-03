@@ -243,6 +243,7 @@ export function ConnectButton({
                   onClick={openConnectModal}
                   paddingX="14"
                   paddingY="10"
+                  textAlign="center"
                   type="button"
                 >
                   Connect Wallet
